@@ -24,14 +24,15 @@ func homePage(w http.ResponseWriter, r *http.Request) {
     fmt.Println("homePage()")
 }
 
-func handleRequests() {
+// add PATCH ?
+func serve() {
     Router := mux.NewRouter().StrictSlash(true)
     Router.HandleFunc("/", homePage)
-    Router.HandleFunc("/list-students", getStudents)
-    Router.HandleFunc("/create-student", createStudent).Methods("POST")
-    Router.HandleFunc("/view-student/{id}", getOneStudent)
-    Router.HandleFunc("/delete-student/{id}", deleteStudent).Methods("DELETE")
-    Router.HandleFunc("/update-student/{id}", updateStudent).Methods("PUT")
+    Router.HandleFunc("/students", getStudents).Methods("GET")
+    Router.HandleFunc("/students", createStudent).Methods("POST")
+    Router.HandleFunc("/student/{id}", getOneStudent).Methods("GET")
+    Router.HandleFunc("/student/{id}", deleteStudent).Methods("DELETE")
+    Router.HandleFunc("/student/{id}", updateStudent).Methods("PUT")
 
     log.Fatal(http.ListenAndServe(":8080", Router))
 }
@@ -56,7 +57,7 @@ func getOneStudent(w http.ResponseWriter, r *http.Request) {
 }
 
 // via POST
-// curl -X POST -H 'Content-Type: application/json' -d '{"Id": "3", "Name": "Student D", "Age": 12, "FavouriteSubject": "History"}' http://127.0.0.1:8080/create-student
+// curl -X POST -H 'Content-Type: application/json' -d '{"Id": "3", "Name": "Student D", "Age": 12, "FavouriteSubject": "History"}' http://127.0.0.1:8080/students
 func createStudent(w http.ResponseWriter, r *http.Request) {
     fmt.Println("createStudent()")
 
@@ -74,7 +75,7 @@ func createStudent(w http.ResponseWriter, r *http.Request) {
 }
 
 // via DELETE
-// curl -X "DELETE" http://127.0.0.1:8080/delete-student/0
+// curl -X "DELETE" http://127.0.0.1:8080/student/0
 func deleteStudent(w http.ResponseWriter, r *http.Request) {
     fmt.Println("deleteStudent()")
 
@@ -92,7 +93,7 @@ func deleteStudent(w http.ResponseWriter, r *http.Request) {
 }
 
 // via PUT
-// curl -X "PUT" -H 'Content-Type: application/json' -d '{"Id": "0", "Name": "Student AA", "Age": 11, "FavouriteSubject": "Maths"}' http://127.0.0.1:8080/update-student/0
+// curl -X "PUT" -H 'Content-Type: application/json' -d '{"Id": "0", "Name": "Student AA", "Age": 11, "FavouriteSubject": "Maths"}' http://127.0.0.1:8080/student/0
 func updateStudent(w http.ResponseWriter, r *http.Request) {
     fmt.Println("updateStudent()")
 
@@ -123,6 +124,6 @@ func main() {
         { Id: "1", Name: "Student B", Age: 14, FavouriteSubject: "Geography" },
         { Id: "2", Name: "Student C", Age: 8, FavouriteSubject: "English" },
     }
-    handleRequests()
+    serve()
 }
 
