@@ -20,6 +20,7 @@ func handleRequests() {
     Router.HandleFunc("/list-students", getStudents)
     Router.HandleFunc("/create-student", createStudent).Methods("POST")
     Router.HandleFunc("/view-student/{id}", getOneStudent)
+    Router.HandleFunc("/delete-student/{id}", deleteStudent).Methods("DELETE")
 
     log.Fatal(http.ListenAndServe(":8080", Router))
 }
@@ -55,6 +56,8 @@ func getOneStudent(w http.ResponseWriter, r *http.Request) {
 // via POST
 // curl -X POST -H 'Content-Type: application/json' -d '{"Id": "3", "Name": "Student D", "Age": 12, "FavouriteSubject": "History"}' http://127.0.0.1:8080/create-student
 func createStudent(w http.ResponseWriter, r *http.Request) {
+    fmt.Println("createStudent()")
+
     body, err := ioutil.ReadAll(r.Body)
     if err != nil {
         fmt.Println("createStudent() - error")
@@ -66,6 +69,24 @@ func createStudent(w http.ResponseWriter, r *http.Request) {
     Students = append(Students, newStudent)
     json.NewEncoder(w).Encode(newStudent)
     fmt.Println("createStudent() - created new Student")
+}
+
+// via DELETE
+// curl -X "DELETE" http://127.0.0.1:8080/delete-student/0
+func deleteStudent(w http.ResponseWriter, r *http.Request) {
+    fmt.Println("deleteStudent()")
+
+    vars := mux.Vars(r)
+    fmt.Println("mux.Vars():", vars)
+
+    requestedId := vars["id"]
+    for i := range Students {
+        if Students[i].Id == requestedId {
+            json.NewEncoder(w).Encode(Students[i])
+            Students = append(Students[:i], Students[i+1:]...)
+            break
+        }
+    }
 }
 
 func main() {
