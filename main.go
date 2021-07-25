@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+    "strconv"
 	"log"
 	"net/http"
     "github.com/gorilla/mux"
@@ -9,8 +10,17 @@ import (
     "io/ioutil"
 )
 
+type Student struct {
+    Id string `json:"Id"`
+    Name string `json:"Name"`
+    Age int `json:"Age"`
+    FavouriteSubject string `json:"FavouriteSubject"`
+}
+
+var Students []Student
+
 func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello there!")
+	fmt.Fprintln(w, "Number of students -", strconv.Itoa(len(Students)))
     fmt.Println("homePage()")
 }
 
@@ -21,18 +31,10 @@ func handleRequests() {
     Router.HandleFunc("/create-student", createStudent).Methods("POST")
     Router.HandleFunc("/view-student/{id}", getOneStudent)
     Router.HandleFunc("/delete-student/{id}", deleteStudent).Methods("DELETE")
+    Router.HandleFunc("/update-student/{id}", updateStudent).Methods("PUT")
 
     log.Fatal(http.ListenAndServe(":8080", Router))
 }
-
-type Student struct {
-    Id string `json:"Id"`
-    Name string `json:"Name"`
-    Age int `json:"Age"`
-    FavouriteSubject string `json:"FavouriteSubject"`
-}
-
-var Students []Student
 
 func getStudents(w http.ResponseWriter, r *http.Request) {
     fmt.Println("getStudents()")
@@ -85,6 +87,32 @@ func deleteStudent(w http.ResponseWriter, r *http.Request) {
             json.NewEncoder(w).Encode(Students[i])
             Students = append(Students[:i], Students[i+1:]...)
             break
+        }
+    }
+}
+
+// via PUT
+// curl -X "PUT" -H 'Content-Type: application/json' -d '{"Id": "0", "Name": "Student AA", "Age": 11, "FavouriteSubject": "Maths"}' http://127.0.0.1:8080/update-student/0
+func updateStudent(w http.ResponseWriter, r *http.Request) {
+    fmt.Println("updateStudent()")
+
+    body, err := ioutil.ReadAll(r.Body)
+    if err != nil {
+        fmt.Println("updateStudent() - error")
+        return
+    }
+
+    var updatedStudent Student
+    json.Unmarshal(body, &updatedStudent)
+
+    vars := mux.Vars(r)
+    fmt.Println("mux.Vars():", vars)
+
+    requestedId := vars["id"]
+    for i := range Students {
+        if Students[i].Id == requestedId {
+            json.NewEncoder(w).Encode(updatedStudent)
+            Students[i] = updatedStudent
         }
     }
 }
