@@ -6,6 +6,7 @@ import (
 	"net/http"
     "github.com/gorilla/mux"
     "encoding/json"
+    "io/ioutil"
 )
 
 func homePage(w http.ResponseWriter, r *http.Request) {
@@ -16,8 +17,9 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 func handleRequests() {
     Router := mux.NewRouter().StrictSlash(true)
     Router.HandleFunc("/", homePage)
-    Router.HandleFunc("/students", getStudents)
-    Router.HandleFunc("/students/{id}", getOneStudent)
+    Router.HandleFunc("/list-students", getStudents)
+    Router.HandleFunc("/create-student", createStudent).Methods("POST")
+    Router.HandleFunc("/view-student/{id}", getOneStudent)
 
     log.Fatal(http.ListenAndServe(":8080", Router))
 }
@@ -50,6 +52,22 @@ func getOneStudent(w http.ResponseWriter, r *http.Request) {
     }
 }
 
+// via POST
+// curl -X POST -H 'Content-Type: application/json' -d '{"Id": "3", "Name": "Student D", "Age": 12, "FavouriteSubject": "History"}' http://127.0.0.1:8080/create-student
+func createStudent(w http.ResponseWriter, r *http.Request) {
+    body, err := ioutil.ReadAll(r.Body)
+    if err != nil {
+        fmt.Println("createStudent() - error")
+        return
+    }
+
+    var newStudent Student
+    json.Unmarshal(body, &newStudent)
+    Students = append(Students, newStudent)
+    json.NewEncoder(w).Encode(newStudent)
+    fmt.Println("createStudent() - created new Student")
+}
+
 func main() {
     Students = []Student {
         { Id: "0", Name: "Student A", Age: 11, FavouriteSubject: "Maths" },
@@ -58,3 +76,4 @@ func main() {
     }
 	handleRequests()
 }
+
