@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
+    "fmt"
     "strconv"
-	"log"
-	"net/http"
+    "log"
+    "net/http"
     "github.com/gorilla/mux"
     "encoding/json"
     "io/ioutil"
@@ -20,7 +20,7 @@ type Student struct {
 var Students []Student
 
 func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Number of students -", strconv.Itoa(len(Students)))
+    fmt.Fprintln(w, "Number of students -", strconv.Itoa(len(Students)))
     fmt.Println("homePage()")
 }
 
@@ -123,6 +123,6 @@ func main() {
         { Id: "1", Name: "Student B", Age: 14, FavouriteSubject: "Geography" },
         { Id: "2", Name: "Student C", Age: 8, FavouriteSubject: "English" },
     }
-	handleRequests()
+    handleRequests()
 }
 
