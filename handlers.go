@@ -35,7 +35,7 @@ func (app *App) getOneStudent(w http.ResponseWriter, r *http.Request) {
 }
 
 // via POST
-// curl -X POST -H 'Content-Type: application/json' -d '{"Id": "3", "Name": "Student D", "Age": 12, "FavouriteSubject": "History"}' http://127.0.0.1:8080/students
+// curl -X POST -H 'Content-Type: application/json' -d '{"id": "3", "name": "Student D", "age": 12, "favouriteSubject": "History"}' http://127.0.0.1:8080/students
 func (app *App) createStudent(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("createStudent()")
 
@@ -71,7 +71,7 @@ func (app *App) deleteStudent(w http.ResponseWriter, r *http.Request) {
 }
 
 // via PUT
-// curl -X "PUT" -H 'Content-Type: application/json' -d '{"Id": "0", "Name": "Student AA", "Age": 11, "FavouriteSubject": "Maths"}' http://127.0.0.1:8080/student/0
+// curl -X "PUT" -H 'Content-Type: application/json' -d '{"id": "0", "name": "Student AA", "age": 11, "favouriteSubject": "Maths"}' http://127.0.0.1:8080/student/0
 func (app *App) updateStudent(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("updateStudent()")
 
