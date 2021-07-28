@@ -1,11 +1,12 @@
 package main
 
-func main() {
-	restServer := initServer([]Student{
-		{Id: "0", Name: "Student A", Age: 11, FavouriteSubject: "Maths"},
-		{Id: "1", Name: "Student B", Age: 14, FavouriteSubject: "Geography"},
-		{Id: "2", Name: "Student C", Age: 8, FavouriteSubject: "English"},
-	})
+import (
+	"main.go/memdb"
+	"main.go/rest"
+)
 
-	restServer.serve()
+func main() {
+	myStudentService := memdb.InitializeService()
+	server := rest.CreateServer(myStudentService)
+	server.Serve()
 }

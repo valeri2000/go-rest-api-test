@@ -1,4 +1,4 @@
-package main
+package student
 
 type Student struct {
 	Id               string `json:"id"`
