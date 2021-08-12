@@ -22,7 +22,7 @@ func (server *Server) getStudents(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(time.Now().Format("[15:04:05]"), "getStudents()")
 	data, err := server.StudentService.GetStudents()
 	if err != nil {
-		json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode(err.Error())
 	} else {
 		json.NewEncoder(w).Encode(data)
 	}

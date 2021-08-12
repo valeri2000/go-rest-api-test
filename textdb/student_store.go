@@ -1,6 +1,7 @@
 package textdb
 
 import (
+	"encoding/json"
 	"errors"
 
 	db "github.com/valeri2000/go-text-db"
@@ -26,10 +27,16 @@ func (repo *Repo) GetStudents() ([]student.Student, error) {
 		return nil, err
 	}
 	students := make([]student.Student, len(tempStudents))
-	for i, tempStudent := range tempStudents {
-		var ok bool
-		students[i], ok = tempStudent.(student.Student)
-		if !ok {
+	for i := range tempStudents {
+		tempStudent := tempStudents[i]
+
+		jsonString, err := json.Marshal(tempStudent)
+		if err != nil {
+			return nil, errors.New("Failed getting all students!")
+		}
+
+		err = json.Unmarshal(jsonString, &students[i])
+		if err != nil {
 			return nil, errors.New("Failed getting all students!")
 		}
 	}
