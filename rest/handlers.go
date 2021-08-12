@@ -20,8 +20,12 @@ func (server *Server) homePage(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) getStudents(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(time.Now().Format("[15:04:05]"), "getStudents()")
-	data := server.StudentService.GetStudents()
-	json.NewEncoder(w).Encode(data)
+	data, err := server.StudentService.GetStudents()
+	if err != nil {
+		json.NewEncoder(w).Encode(err)
+	} else {
+		json.NewEncoder(w).Encode(data)
+	}
 }
 
 func (server *Server) getOneStudent(w http.ResponseWriter, r *http.Request) {

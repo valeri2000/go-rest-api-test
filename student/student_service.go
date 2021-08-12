@@ -3,10 +3,10 @@ package student
 import "errors"
 
 type Service struct {
-	Repo *Repo
+	Repo StudentRepo
 }
 
-func (service *Service) GetStudents() []Student {
+func (service *Service) GetStudents() ([]Student, error) {
 	return service.Repo.GetStudents()
 }
 
@@ -15,7 +15,7 @@ func (service *Service) GetStudentByID(id string) (Student, error) {
 		return Student{}, errors.New("Invalid ID for deletion!")
 	}
 
-	return service.Repo.GetStudentByID(id), nil
+	return service.Repo.GetStudentByID(id)
 }
 
 func (service *Service) CountStudents() int {
@@ -23,8 +23,7 @@ func (service *Service) CountStudents() int {
 }
 
 func (service *Service) AddStudent(student Student) error {
-	service.Repo.AddStudent(student)
-	return nil
+	return service.Repo.AddStudent(student)
 }
 
 func (service *Service) DeleteStudentByID(id string) error {
@@ -32,8 +31,7 @@ func (service *Service) DeleteStudentByID(id string) error {
 		return errors.New("Invalid ID for deletion!")
 	}
 
-	service.Repo.DeleteStudentByID(id)
-	return nil
+	return service.Repo.DeleteStudentByID(id)
 }
 
 func (service *Service) UpdateStudentByID(id string, updatedStudent Student) error {
@@ -41,6 +39,5 @@ func (service *Service) UpdateStudentByID(id string, updatedStudent Student) err
 		return errors.New("Invalid ID for deletion!")
 	}
 
-	service.Repo.UpdateStudentByID(id, updatedStudent)
-	return nil
+	return service.Repo.UpdateStudentByID(id, updatedStudent)
 }

@@ -1,12 +1,21 @@
 package main
 
 import (
-	"main.go/memdb"
+	"fmt"
+
 	"main.go/rest"
+	"main.go/student"
+	"main.go/textdb"
 )
 
 func main() {
-	myStudentService := memdb.InitializeService()
+	myRepo, err := textdb.NewRepo("data.json")
+	if err != nil {
+		fmt.Println("Error while creating repo!")
+		return
+	}
+
+	myStudentService := &(student.Service{Repo: myRepo})
 	server := rest.CreateServer(myStudentService)
 	server.Serve()
 }
