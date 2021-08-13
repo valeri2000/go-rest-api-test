@@ -1,8 +1,4 @@
 github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
 github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
-github.com/valeri2000/go-text-db v0.0.0-20210811132405-851dd03be4b6 h1:MTl5qdE32Q4lT5eR/hvY9ZMMNiQWC07rDDgSk1E8onk=
-github.com/valeri2000/go-text-db v0.0.0-20210811132405-851dd03be4b6/go.mod h1:f3S4SisZwZl03T0KQojvteGf5Fk820lc70aUKvValP8=
-github.com/valeri2000/go-text-db v0.0.0-20210812113334-2a3ccee74e1a h1:7JSi0KiPPyREC/mcI4EtAotRJOSXNHt2XC30QRVJcqk=
-github.com/valeri2000/go-text-db v0.0.0-20210812113334-2a3ccee74e1a/go.mod h1:f3S4SisZwZl03T0KQojvteGf5Fk820lc70aUKvValP8=
 github.com/valeri2000/go-text-db v0.0.0-20210812113740-f50ba90aaa10 h1:8zV5820rdFqH4cJBwlRPjIdf9QhSPYrbMP/YVYLzivQ=
 github.com/valeri2000/go-text-db v0.0.0-20210812113740-f50ba90aaa10/go.mod h1:f3S4SisZwZl03T0KQojvteGf5Fk820lc70aUKvValP8=
