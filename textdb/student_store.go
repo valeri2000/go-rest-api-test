@@ -32,12 +32,12 @@ func (repo *Repo) GetStudents() ([]student.Student, error) {
 
 		jsonString, err := json.Marshal(tempStudent)
 		if err != nil {
-			return nil, errors.New("Failed getting all students!")
+			return nil, errors.New("failed getting all students")
 		}
 
 		err = json.Unmarshal(jsonString, &students[i])
 		if err != nil {
-			return nil, errors.New("Failed getting all students!")
+			return nil, errors.New("failed getting all students")
 		}
 	}
 
@@ -47,12 +47,12 @@ func (repo *Repo) GetStudents() ([]student.Student, error) {
 func (repo *Repo) GetStudentByID(id string) (student.Student, error) {
 	temp, ok := repo.Database.Get(id)
 	if !ok {
-		return student.Student{}, errors.New("Couldn't get student id!")
+		return student.Student{}, errors.New("couldn't get student id")
 	}
 
 	stud, ok := temp.(student.Student)
 	if !ok {
-		return student.Student{}, errors.New("Couldn't get student id!")
+		return student.Student{}, errors.New("couldn't get student id")
 	}
 	return stud, nil
 }
